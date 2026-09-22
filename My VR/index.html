@@ -12,12 +12,14 @@
 <!-- This is the main body of the website- ALL your content goes AFTER the <body> tag and before the </body> tag -->
 <body>
 <!--Enviroment :3-->
-<a-scene fog="type: linear; color: #1a1d22; near: 5; far: 35">
+<a-scene>
+  <a-camera id="playerCamera" position="0 1.6 0" look-controls wasd-controls>
+  </a-camera>
 <!--Assets-->
 <a-assets>
 <ing id="wall8" src="images/Hibiscus.jpg" title=""></ing>  
 </a-assets>
-<a-entity environment="preset:forest;dressingAmount:0.9;skyColor:#111821;groundColor:#171717;groundColor2:#0d0d0d;fog:0.15"></a-entity>
+<a-entity environment="preset:forest;dressingAmount:1;skyColor:Black"></a-entity>
 <!--Museum Start-->
 <img id="art1" src="images/Beach2.png" title="Beach"></img>  
 <img id="art2" src="images/wallpaper.png" title="Beach"></img>  
@@ -237,13 +239,37 @@
   <a-plane id="art1" src="#art1" scale="2 2 0.05" rotation="0 90 0" position="-9.4 4.3 -47"></a-plane>
 </a-scene>
 
+<script>
+  const cam = document.getElementById('playerCamera');
+  let jumpVelocity = 0;
+  let grounded = true;
+  const startY = 1.6;
 
+  document.addEventListener('keydown', function (event) {
+    if (event.code === 'Space' && grounded && cam) {
+      jumpVelocity = 0.22;
+      grounded = false;
+    }
+  });
 
+  AFRAME.registerComponent('small-jump', {
+    tick: function () {
+      if (!cam) return;
 
+      const pos = cam.object3D.position;
+      jumpVelocity -= 0.008;
+      pos.y += jumpVelocity;
 
+      if (pos.y <= startY) {
+        pos.y = startY;
+        jumpVelocity = 0;
+        grounded = true;
+      }
+    }
+  });
 
-
-
+  cam.setAttribute('small-jump', '');
+</script>
 
 </body>
 </html>
