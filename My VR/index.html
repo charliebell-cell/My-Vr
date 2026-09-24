@@ -13,8 +13,8 @@
 <body>
 <!--Enviroment :3-->
 <a-scene>
-  <a-camera id="playerCamera" position="0 1.6 0" look-controls wasd-controls>
-  </a-camera>
+ 
+  
 <!--Assets-->
 <a-assets>
 <ing id="wall8" src="images/Hibiscus.jpg" title=""></ing>  
@@ -239,37 +239,7 @@
   <a-plane id="art1" src="#art1" scale="2 2 0.05" rotation="0 90 0" position="-9.4 4.3 -47"></a-plane>
 </a-scene>
 
-<script>
-  const cam = document.getElementById('playerCamera');
-  let jumpVelocity = 0;
-  let grounded = true;
-  const startY = 1.6;
 
-  document.addEventListener('keydown', function (event) {
-    if (event.code === 'Space' && grounded && cam) {
-      jumpVelocity = 0.22;
-      grounded = false;
-    }
-  });
-
-  AFRAME.registerComponent('small-jump', {
-    tick: function () {
-      if (!cam) return;
-
-      const pos = cam.object3D.position;
-      jumpVelocity -= 0.008;
-      pos.y += jumpVelocity;
-
-      if (pos.y <= startY) {
-        pos.y = startY;
-        jumpVelocity = 0;
-        grounded = true;
-      }
-    }
-  });
-
-  cam.setAttribute('small-jump', '');
-</script>
 
 </body>
 </html>
